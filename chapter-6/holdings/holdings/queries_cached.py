@@ -11,7 +11,10 @@ class MarketDataClient(object):
 
     def _make_request(self, url):
         response = requests.get(
-            f"{self.base_url}/{url}", headers={'content-type': 'application/json'})
+            f"{self.base_url}/{url}",
+            headers={'content-type': 'application/json'},
+            timeout=5
+        )
         return response.json()
 
     @cached(cache)
