@@ -1,7 +1,7 @@
 import logging
 
 import requests
-from tenacity import before_log, retry, stop_after_attempt
+from tenacity import before_log, retry, stop_after_attempt, wait_exponential, wait_random
 
 
 class MarketDataClient(object):
@@ -14,8 +14,11 @@ class MarketDataClient(object):
             f"{self.base_url}/{url}", headers={'content-type': 'application/json'})
         return response.json()
 
-    @retry(stop=stop_after_attempt(3),
-           before=before_log(logger, logging.DEBUG))
+    @retry(
+        wait=wait_exponential(multiplier=1, max=5) + wait_random(0, 1),
+        stop=stop_after_attempt(5),
+        before=before_log(logger, logging.DEBUG)
+    )
     def all_prices(self):
         return self._make_request("prices")
 
