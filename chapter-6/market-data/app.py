@@ -27,7 +27,7 @@ def price(code):
 
 @app.route('/prices', methods=["GET"])
 def all_prices():
-    #raise Exception
+    raise Exception
     return jsonify(list(PRICES.values()))
 
 
