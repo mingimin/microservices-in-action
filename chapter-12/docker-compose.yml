@@ -164,14 +164,14 @@ services:
       - "3900:3000"
 
   kibana:
-    image: kibana
+    image: kibana:6.8.6
     links:
       - "elasticsearch"
     ports:
       - "5601:5601"
 
   elasticsearch:
-    image: elasticsearch
+    image: elasticsearch:6.8.6
     expose:
       - 9200
     ports:
